@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AuthApi } from '../../api/AuthApi'
+import CookieUtils from '../../utils/CookieUtils'
 
 const initialState = {
   isAuth: false,
-  isLoading: true,
-  token: '',
+  isLoading: false,
   errors: [],
 }
 
@@ -37,8 +37,7 @@ export const auth = (user) => {
     dispatch(authSlice.actions.authRequest())
     try {
       const res = await AuthApi.auth(user)
-      document.cookie =
-        encodeURIComponent('token') + '=' + encodeURIComponent(res.data?.token)
+      CookieUtils.setCookie('token', res.data?.token)
       dispatch(authSlice.actions.authSuccess())
     } catch (e) {
       const errors = e.response.data?.non_field_errors

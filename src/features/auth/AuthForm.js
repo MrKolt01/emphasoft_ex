@@ -55,7 +55,6 @@ const AuthForm = ({ handleSubmit, pristine, submitting }) => {
   const styles = useStyles()
 
   const errors = useSelector(AuthSelector.getErrors)
-  const isLoading = useSelector(AuthSelector.getIsLoading)
 
   return (
     <Paper className={styles.formWrapper}>

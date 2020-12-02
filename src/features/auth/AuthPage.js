@@ -2,8 +2,10 @@ import React, { useCallback } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core'
 import AuthForm from './AuthForm'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './authReducer'
+import AuthSelector from './authSelectors'
+import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -17,23 +19,32 @@ const AuthPage = () => {
   const styles = useStyles()
 
   const dispatch = useDispatch()
+  const isLoading = useSelector(AuthSelector.getIsLoading)
   const onSubmit = useCallback(
     (formData) => {
-      console.log(formData)
-      dispatch(auth(formData))
+      if (!isLoading) {
+        dispatch(auth(formData))
+      }
     },
-    [dispatch]
+    [dispatch, isLoading]
   )
+  const isAuth = useSelector(AuthSelector.getIsAuth)
 
   return (
-    <Grid
-      container
-      justify="center"
-      alignItems="center"
-      className={styles.root}
-    >
-      <AuthForm onSubmit={onSubmit} />
-    </Grid>
+    <>
+      {isAuth ? (
+        <Redirect to="/users" />
+      ) : (
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          className={styles.root}
+        >
+          <AuthForm onSubmit={onSubmit} />
+        </Grid>
+      )}
+    </>
   )
 }
 
