@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import AuthForm from './AuthForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './authReducer'
-import AuthSelector from './authSelectors'
+import AuthSelector from './authSelector'
 import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles({

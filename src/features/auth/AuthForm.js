@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import { useSelector } from 'react-redux'
-import AuthSelector from './authSelectors'
+import AuthSelector from './authSelector'
 import FormHelperText from '@material-ui/core/FormHelperText'
 
 const validate = (values) => {

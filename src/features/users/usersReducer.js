@@ -4,20 +4,28 @@ import CookieUtils from '../../utils/CookieUtils'
 
 const initialState = {
   users: [],
+  isLoading: false,
 }
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    getUsersRequest() {},
+    getUsersRequest(state) {
+      state.isLoading = true
+    },
+    getUsersSuccess(state, { payload }) {
+      state.isLoading = false
+      state.users = payload
+    },
   },
 })
 
 export const getUsers = () => {
   return async (dispatch) => {
+    dispatch(usersSlice.actions.getUsersRequest())
     const res = await UsersApi.getUsers(CookieUtils.getCookie('token'))
-    console.log(res)
+    dispatch(usersSlice.actions.getUsersSuccess(res.data))
   }
 }
 
