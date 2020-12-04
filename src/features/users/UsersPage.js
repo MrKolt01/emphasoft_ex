@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AuthSelector from '../auth/authSelector'
 import { Redirect } from 'react-router-dom'
 import { getUsers } from './usersReducer'
 import UsersSelector from './usersSelector'
 import { DataGrid } from '@material-ui/data-grid'
+import TextField from '@material-ui/core/TextField'
 
 const UsersPage = () => {
   const isAuth = useSelector(AuthSelector.getIsAuth)
@@ -18,6 +19,29 @@ const UsersPage = () => {
 
   const users = useSelector(UsersSelector.getUsers)
   const isLoading = useSelector(UsersSelector.getIsLoading)
+
+  const [searchName, setSearchName] = useState('')
+  const handleFilter = useCallback(
+    (event) => {
+      setSearchName(event.target.value)
+    },
+    [setSearchName]
+  )
+
+  const filteredUsers = useMemo(
+    () =>
+      users.filter((el) =>
+        el.username.toUpperCase().includes(searchName.toUpperCase())
+      ),
+    [users, searchName]
+  )
+
+  const sortModel = [
+    {
+      field: 'id',
+      sort: 'asc',
+    },
+  ]
 
   const columns = [
     {
@@ -61,13 +85,26 @@ const UsersPage = () => {
   return (
     <>
       {isAuth ? (
-        <div style={{ height: '100vh', width: '100%' }}>
-          <DataGrid
-            rows={users}
-            columns={columns}
-            loading={isLoading}
-            autoPageSize
+        <div style={{ height: '100vh' }}>
+          <TextField
+            label="Username filter"
+            variant="filled"
+            fullWidth
+            value={searchName}
+            onChange={handleFilter}
           />
+          <div style={{ height: 'calc(100vh - 56px)' }}>
+            <DataGrid
+              rows={filteredUsers}
+              columns={columns}
+              loading={isLoading}
+              hideFooterSelectedRowCount
+              disableSelectionOnClick
+              hideFooter
+              sortingOrder={['desc', 'asc']}
+              sortModel={sortModel}
+            />
+          </div>
         </div>
       ) : (
         <Redirect to={'/'} />
