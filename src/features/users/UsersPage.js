@@ -7,6 +7,52 @@ import UsersSelector from './usersSelector'
 import { DataGrid } from '@material-ui/data-grid'
 import TextField from '@material-ui/core/TextField'
 
+const sortModel = [
+  {
+    field: 'id',
+    sort: 'asc',
+  },
+]
+
+const columns = [
+  {
+    field: 'id',
+    headerName: 'ID',
+    type: 'number',
+  },
+  { field: 'username', headerName: 'Username', sortable: false, width: 160 },
+  {
+    field: 'first_name',
+    headerName: 'First name',
+    sortable: false,
+    width: 160,
+  },
+  {
+    field: 'last_name',
+    headerName: 'Last name',
+    sortable: false,
+    width: 160,
+  },
+  {
+    field: 'last_login',
+    headerName: 'Last login',
+    sortable: false,
+    width: 230,
+  },
+  {
+    field: 'is_active',
+    headerName: 'Is active',
+    sortable: false,
+    width: 90,
+  },
+  {
+    field: 'is_superuser',
+    headerName: 'Is superuser',
+    sortable: false,
+    width: 120,
+  },
+]
+
 const UsersPage = () => {
   const isAuth = useSelector(AuthSelector.getIsAuth)
 
@@ -35,52 +81,6 @@ const UsersPage = () => {
       ),
     [users, searchName]
   )
-
-  const sortModel = [
-    {
-      field: 'id',
-      sort: 'asc',
-    },
-  ]
-
-  const columns = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      type: 'number',
-    },
-    { field: 'username', headerName: 'Username', sortable: false, width: 160 },
-    {
-      field: 'first_name',
-      headerName: 'First name',
-      sortable: false,
-      width: 160,
-    },
-    {
-      field: 'last_name',
-      headerName: 'Last name',
-      sortable: false,
-      width: 160,
-    },
-    {
-      field: 'last_login',
-      headerName: 'Last login',
-      sortable: false,
-      width: 230,
-    },
-    {
-      field: 'is_active',
-      headerName: 'Is active',
-      sortable: false,
-      width: 90,
-    },
-    {
-      field: 'is_superuser',
-      headerName: 'Is superuser',
-      sortable: false,
-      width: 120,
-    },
-  ]
 
   return (
     <>
